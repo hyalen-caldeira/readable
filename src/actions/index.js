@@ -1,39 +1,46 @@
-export const ADD_POST = 'ADD_POST'
-export const ADD_COMMENT = 'ADD_COMMENT'
-export const SET_CATEGORY = 'SET_CATEGORY'
+import * as ReadableAPI from '../utils/ReadableAPI'
+import { 
+    FETCH_CATEGORIES,
+    LOADING,
+    FETCH_POSTS } from './types'
 
-export function addPost({id, timestamp, title, body, author, category, voteScore, deleted}) {
-    return {
-        type: ADD_POST,
-        id,
-        timestamp,
-        title,
-        body,
-        author,
-        category,
-        voteScore,
-        deleted
-    }
-}
+// Categories
 
-export function addComment({id, parentId, timestamp, body, author, voteScore, deleted, parentDeleted}) {
-    return {
-        type: ADD_COMMENT,
-        id,
-        parentId,
-        timestamp,
-        body,
-        author,
-        voteScore,
-        deleted,
-        parentDeleted
-    }
-}
+// export function fetchCategories() {
+//     return dispatch => { 
+//         ReadableAPI.fetchCategories().then(({ data }) => {
+//             dispatch({
+//                 type: FETCH_CATEGORIES,
+//                 categories: data.categories
+//             })
+//         })
+//     }
+// }
 
-export function setCategories({name, url}) {
-    return {
-        type: SET_CATEGORY,
-        name,
-        url
-    }
-}
+export const fetchCategories = () => dispatch => (
+    ReadableAPI.fetchCategories().then(({ data }) => {
+        dispatch({
+            type: FETCH_CATEGORIES,
+            categories: data.categories
+        })
+    })
+)
+
+export const fetchPosts = () => dispatch => (
+    ReadableAPI.fetchPosts().then(({data}) => {
+        dispatch(({
+            type: LOADING,
+            loading: true
+        }))
+
+        dispatch({
+            type: FETCH_POSTS,
+            posts: data
+        })
+
+        dispatch(({
+            type: LOADING,
+            loading: false
+        }))
+    })
+)
