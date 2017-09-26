@@ -26,3 +26,13 @@ export const fetchCategories = () => (
 export const fetchPosts = () => (
     axios.get(`${api}/posts`)
 )
+
+// Post detail
+export const getPostDetail = (id) => (
+    axios.get(`${api}/posts/${id}`)
+)
+
+// Comments by post id
+export const fetchCommentsByPostId = (id) => (
+    axios.get(`${api}/posts/${id}/comments`)
+)

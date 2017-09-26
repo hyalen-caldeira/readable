@@ -29,8 +29,19 @@ body {
   font-weight: 300;
 }
 
-a {
+.destaq {
   color: #007bff;
+  text-decoration: none;
+  background-color: transparent;
+  -webkit-text-decoration-skip: objects;
+}
+
+.post-preview {
+  color: #312A2A;
+}
+
+.title-destaq {
+  color: #A71F1F;
   text-decoration: none;
   background-color: transparent;
   -webkit-text-decoration-skip: objects;
@@ -86,4 +97,18 @@ p {
 .my-4 {
   margin-top: 1.5rem !important;
   margin-bottom: 1.5rem !important;
+}
+
+.well {
+  min-height: 20px;
+  padding: 19px;
+  margin-bottom: 20px;
+  background-color: #f5f5f5;
+  border: 1px solid #e3e3e3;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+}
+
+.text-xs-right {
+  text-align: right!important;
 }

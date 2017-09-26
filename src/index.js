@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import App from './components/App';
+import PostDetail from './components/PostDetail';
 import registerServiceWorker from './registerServiceWorker';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux'
@@ -32,6 +33,7 @@ ReactDOM.render(
         <BrowserRouter>
             <Switch>
                 <Route exact path='/' component={App}></Route>
+                <Route path='/:category/:id' component={PostDetail}></Route>
             </Switch>
         </BrowserRouter>
     </Provider>, document.getElementById('root'));

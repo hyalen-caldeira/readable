@@ -5,25 +5,41 @@ import { connect } from 'react-redux';
 import * as ReactBootstrap from 'react-bootstrap';
 import Category from './Category'
 import * as actions from '../actions'
+import { Link } from 'react-router-dom';
+import _ from 'lodash';
+
+// Na tela principal  
+//   Exibir a categoria
+// Comments
+//   Usar o mesmo layout da pagina principal
+//   Criar component
 
 const {
   Grid,
   Row,
   Col,
-  Panel
+  Panel,
+  ListGroup,
+  ListGroupItem,
+  Label
 } = ReactBootstrap;
 
+const wellStyles = {margin: '0 auto 10px'};
 // panel, grid, tab, Accordions, Form, Media
 
-class App extends Component {
-  
-  componentDidMount() {
-    this.props.fetchPosts()
+function timestampToDate(timestamp) {
+  const time = new Date(timestamp)
+  return time.toLocaleString();
+}
 
-    console.log('Dentro de App >>>>>>>>>', this.props)
+class App extends Component {
+  componentDidMount() {
+  this.props.fetchPosts()
   }
 
   render() {
+    const { posts, comments } = this.props
+
     return (
       <div className="App">
         <div><NavbarInstance></NavbarInstance></div>
@@ -32,26 +48,65 @@ class App extends Component {
           {/* Page Content */}
           <Grid>
             <Row>
-
               {/* Post Content Column */}
               <Col lg={8}>
+                <ListGroup>
+                {
+                  Object.keys(posts).map((key, index) => (
+                    
+                    <ListGroupItem className="well" key={key} style={wellStyles}>
+                      <Row className="show-grid"> 
+                        <Col lg={12}>
+                          <Link to={`/${posts[key].category}/${posts[key].id}`}>
+                            <h1 className="mt-4 post-preview">{posts[key].title}</h1>
+                          </Link>
+                          <p>
+                            by <a href="#" className="lead destaq">{posts[key].author}</a>
+                          </p>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col lg={6}>
+                        <p>Posted on  {timestampToDate(posts[key].timestamp)}</p>
+                        </Col>
+                        <Col lg={4}  className="text-xs-right">
+                          {`Comments `} 
+                          <h7>
+                            <Label
+                              className="text-xs-right"
+                              bsSize="small"
+                              bsStyle="default">
+                                {_.size(comments[posts[key].id])}
+                            </Label>
+                          </h7>
+                        </Col>
+                        <Col lg={2} className="text-xs-right">
+                          <h7>
+                            {`Score `}
+                            <Label
+                              className="text-xs-right"
+                              bsSize="small"
+                              bsStyle={posts[key].voteScore < 0 ? "danger": "default"}>
+                                {posts[key].voteScore}
+                            </Label>
+                          </h7>
+                        </Col>
+                      </Row>
 
-                {/* Title */}
-                <h1 className="mt-4">Post Title</h1>
+                      {/* Preview Image */}
+                      <img className="img-fluid rounded" src="http://placehold.it/900x300" alt=""/>
+                      <hr/>
 
-                {/* Author */}
-                <p className="lead">
-                  by <a href="#">Start  Bootstrap</a>
-                </p>
-                <hr/>
-
-                {/* Date/Time */}
-                <p>Posted on January 1, 2017 at 12:00 PM</p>
-                <hr/>
-
-                {/* Preview Image */}
-                <img className="img-fluid rounded" src="http://placehold.it/900x300" alt=""/>
-                <hr/>
+                      {/* Post Content */}
+                      <p className="lead">
+                        {posts[key].body}
+                      </p>
+                      {/* <hr/> */}
+                    </ListGroupItem>
+                  ))
+                }
+                </ListGroup>
+                
 
               </Col>
               <Col md={4}>
@@ -70,9 +125,10 @@ class App extends Component {
   }
 }
 
-function mapStateToProps ({posts}) {
+function mapStateToProps ({posts, comments}) {
   return {
-    posts: posts
+    posts,
+    comments
   }
 }
 
