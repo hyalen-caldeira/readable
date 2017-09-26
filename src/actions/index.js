@@ -1,39 +1,100 @@
-export const ADD_POST = 'ADD_POST'
-export const ADD_COMMENT = 'ADD_COMMENT'
-export const SET_CATEGORY = 'SET_CATEGORY'
+import * as ReadableAPI from '../utils/ReadableAPI'
+import { 
+    FETCH_CATEGORIES,
+    LOADING,
+    FETCH_POSTS,
+    GET_POST_DETAIL,
+    FETCH_COMMENTS_BY_POST_ID
+ } from './types'
 
-export function addPost({id, timestamp, title, body, author, category, voteScore, deleted}) {
-    return {
-        type: ADD_POST,
-        id,
-        timestamp,
-        title,
-        body,
-        author,
-        category,
-        voteScore,
-        deleted
-    }
-}
+// Categories
 
-export function addComment({id, parentId, timestamp, body, author, voteScore, deleted, parentDeleted}) {
-    return {
-        type: ADD_COMMENT,
-        id,
-        parentId,
-        timestamp,
-        body,
-        author,
-        voteScore,
-        deleted,
-        parentDeleted
-    }
-}
+// export function fetchCategories() {
+//     return dispatch => { 
+//         ReadableAPI.fetchCategories().then(({ data }) => {
+//             dispatch({
+//                 type: FETCH_CATEGORIES,
+//                 categories: data.categories
+//             })
+//         })
+//     }
+// }
 
-export function setCategories({name, url}) {
-    return {
-        type: SET_CATEGORY,
-        name,
-        url
-    }
-}
+export const fetchCategories = () => dispatch => (
+    ReadableAPI.fetchCategories().then(({ data }) => {
+        dispatch({
+            type: FETCH_CATEGORIES,
+            categories: data.categories
+        })
+    })
+)
+
+// Posts
+export const fetchPosts = () => dispatch => (
+    ReadableAPI.fetchPosts().then(({data}) => {
+        dispatch({
+            type: LOADING,
+            loading: true
+        })
+
+        dispatch({
+            type: FETCH_POSTS,
+            posts: data
+        })
+
+        dispatch({
+            type: LOADING,
+            loading: false
+        })
+
+        for (let post of data) {
+            ReadableAPI.fetchCommentsByPostId(post.id).then(({data}) => {
+                dispatch({
+                    type: FETCH_COMMENTS_BY_POST_ID,
+                    postId: post.id,
+                    comments: data
+                })
+            })
+        }
+    })
+)
+
+export const getPostDetail = (id) => dispatch => (
+    ReadableAPI.getPostDetail(id).then(({data}) => {
+        dispatch({
+            type: LOADING,
+            loading: true
+        })
+
+        dispatch({
+            type: GET_POST_DETAIL,
+            post: data
+        })
+
+        dispatch({
+            type: LOADING,
+            loading: false
+        })
+    })
+)
+
+// Comments
+export const fetchCommentsByPostId = (id) => dispatch => (
+    ReadableAPI.fetchCommentsByPostId(id).then(({data}) => {
+        dispatch({
+            type: LOADING,
+            loading: true
+        })
+
+        dispatch({
+            type: FETCH_COMMENTS_BY_POST_ID,
+            postId: id,
+            comments: data
+        })
+
+        dispatch({
+            type: LOADING,
+            loading: false
+        })
+    })
+)
