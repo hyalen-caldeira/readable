@@ -8,7 +8,8 @@ const {
   Nav,
   NavItem,
   NavDropdown,
-  MenuItem
+  MenuItem,
+  Glyphicon
 } = ReactBootstrap;
   
 class NavbarInstance extends Component {
@@ -25,8 +26,14 @@ class NavbarInstance extends Component {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav>
-            <NavItem eventKey={1}>Home</NavItem>
-            <NavItem eventKey={2} href="#">Add Post</NavItem>
+            <NavItem eventKey={1}>
+              <Glyphicon glyph="glyphicon glyphicon glyphicon-home" />
+              {` Home`}
+            </NavItem>
+            <NavItem eventKey={2} href="#">
+              <Glyphicon glyph="glyphicon glyphicon glyphicon-plus" />
+              {` Add Post`}
+            </NavItem>
             <NavDropdown eventKey={3} title="Sort By" id="basic-nav-dropdown">
               <MenuItem eventKey={3.1}>Date</MenuItem>
               <MenuItem eventKey={3.2}>Vote Score</MenuItem>

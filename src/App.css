@@ -112,3 +112,7 @@ p {
 .text-xs-right {
   text-align: right!important;
 }
+
+.custom-panel-body {
+  background-color: rgba(229, 232, 239, 0.88);
+} 

@@ -4,7 +4,8 @@ import {
     LOADING,
     FETCH_POSTS,
     GET_POST_DETAIL,
-    FETCH_COMMENTS_BY_POST_ID
+    FETCH_COMMENTS_BY_POST_ID,
+    FETCH_POSTS_BY_CATEGORY_ID
  } from './types'
 
 // Categories
@@ -69,6 +70,25 @@ export const getPostDetail = (id) => dispatch => (
         dispatch({
             type: GET_POST_DETAIL,
             post: data
+        })
+
+        dispatch({
+            type: LOADING,
+            loading: false
+        })
+    })
+)
+
+export const fetchPostsByCategoryId = (categoryId) => dispatch => (
+    ReadableAPI.fetchPostsByCategoryId(categoryId).then(({data}) => {
+        dispatch({
+            type: LOADING,
+            loading: true
+        })
+
+        dispatch({
+            type: FETCH_POSTS_BY_CATEGORY_ID,
+            posts: data
         })
 
         dispatch({
