@@ -1,18 +1,33 @@
-import { LOADING } from '../actions/types';
+import { 
+    STATE_LOADING,
+    STATE_POST_ORDER
+} from '../actions/types';
 
-const initialAppState = {
+const initialStateLoading = {
     loading: false,
     openModal: false
 }
 
-export default function(state=initialAppState, action) {
+export const stateLoadingReducer = (state=initialStateLoading, action) => {
     switch (action.type) {
-        case LOADING:
+        case STATE_LOADING:
             return {
                 ...state,
                 loading: action.loading
             }
         default:
             return state;
+    }
+}
+
+
+const initialStatePostOrder = 'voteScore'
+
+export const statePostOrder = (state=initialStatePostOrder, action) => {
+    switch (action.type) {
+        case STATE_POST_ORDER:
+            return action.postOrder
+        default:
+            return state
     }
 }

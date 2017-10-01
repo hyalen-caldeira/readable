@@ -34,17 +34,13 @@ function timestampToDate(timestamp) {
 
 class App extends Component {
   componentDidMount() {
-    console.log('>>>>>>>>> TO AQUI, GENTEEEEEEE ...', this.props.match.params.category)
     if(this.props.match.params.category) {
       const { fetchPostsByCategoryId } = this.props
-      const { category } = this.props.params.category
-        // match: { params : { category } } } = this.props;
-
-      console.log('>>>>>>>>>', category)
+      const { category } = this.props.match.params
+      //   // match: { params : { category } } } = this.props;
 
       fetchPostsByCategoryId(category);
     } else {
-      console.log('>>>>>>>>> TO AQUI, OH ...', this.props)
       this.props.fetchPosts()
     }
   }

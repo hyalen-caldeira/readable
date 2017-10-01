@@ -24,7 +24,7 @@ const {
 class PostDetail extends Component {
     componentDidMount() {
         const { id } = this.props.match.params;
-        this.props.getPostDetail(id);
+        this.props.fetchPostDetail(id);
         this.props.fetchCommentsByPostId(id);
     }
 
