@@ -1,10 +1,12 @@
 import * as ReadableAPI from '../utils/ReadableAPI'
 import { 
-    FETCH_CATEGORIES,
-    LOADING,
+    STATE_LOADING,
+    STATE_POST_ORDER,
     FETCH_POSTS,
-    GET_POST_DETAIL,
-    FETCH_COMMENTS_BY_POST_ID
+    FETCH_POSTS_BY_CATEGORY_ID,
+    FETCH_POST_DETAIL,
+    FETCH_COMMENTS_BY_POST_ID,
+    FETCH_CATEGORIES
  } from './types'
 
 // Categories
@@ -33,7 +35,7 @@ export const fetchCategories = () => dispatch => (
 export const fetchPosts = () => dispatch => (
     ReadableAPI.fetchPosts().then(({data}) => {
         dispatch({
-            type: LOADING,
+            type: STATE_LOADING,
             loading: true
         })
 
@@ -43,7 +45,7 @@ export const fetchPosts = () => dispatch => (
         })
 
         dispatch({
-            type: LOADING,
+            type: STATE_LOADING,
             loading: false
         })
 
@@ -59,22 +61,48 @@ export const fetchPosts = () => dispatch => (
     })
 )
 
-export const getPostDetail = (id) => dispatch => (
+export const fetchPostDetail = (id) => dispatch => (
     ReadableAPI.getPostDetail(id).then(({data}) => {
         dispatch({
-            type: LOADING,
+            type: STATE_LOADING,
             loading: true
         })
 
         dispatch({
-            type: GET_POST_DETAIL,
+            type: FETCH_POST_DETAIL,
             post: data
         })
 
         dispatch({
-            type: LOADING,
+            type: STATE_LOADING,
             loading: false
         })
+    })
+)
+
+export const fetchPostsByCategoryId = (categoryId) => dispatch => (
+    ReadableAPI.fetchPostsByCategoryId(categoryId).then(({data}) => {
+        dispatch({
+            type: STATE_LOADING,
+            loading: true
+        })
+
+        dispatch({
+            type: FETCH_POSTS_BY_CATEGORY_ID,
+            posts: data
+        })
+
+        dispatch({
+            type: STATE_LOADING,
+            loading: false
+        })
+    })
+)
+
+export const statePostOrder = (order) => dispatch => (
+    dispatch({
+        type: STATE_POST_ORDER,
+        postOrder: order
     })
 )
 
@@ -82,7 +110,7 @@ export const getPostDetail = (id) => dispatch => (
 export const fetchCommentsByPostId = (id) => dispatch => (
     ReadableAPI.fetchCommentsByPostId(id).then(({data}) => {
         dispatch({
-            type: LOADING,
+            type: STATE_LOADING,
             loading: true
         })
 
@@ -93,7 +121,7 @@ export const fetchCommentsByPostId = (id) => dispatch => (
         })
 
         dispatch({
-            type: LOADING,
+            type: STATE_LOADING,
             loading: false
         })
     })

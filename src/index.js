@@ -9,6 +9,7 @@ import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import mainReducer from './reducers/main_reducer'
 import './index.css';
+import { Grid } from 'react-bootstrap';
 
 const logger = store => next => action => {
     console.group(action.type)
@@ -24,17 +25,23 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const store = createStore(
     mainReducer,
     composeEnhancers(
-        applyMiddleware(logger, thunk)
+        // applyMiddleware(logger, thunk)
+        applyMiddleware(thunk)
     )
 )
 
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
+        <div>
+        <Grid>
             <Switch>
-                <Route exact path='/' component={App}></Route>
-                <Route path='/:category/:id' component={PostDetail}></Route>
+                <Route path="/:category/:id" component={PostDetail}></Route>
+                <Route path="/:category" component={App}></Route>
+                <Route exact path="/" component={App}></Route>
             </Switch>
+            </Grid>
+      </div>
         </BrowserRouter>
     </Provider>, document.getElementById('root'));
 

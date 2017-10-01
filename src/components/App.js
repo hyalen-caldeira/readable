@@ -34,7 +34,15 @@ function timestampToDate(timestamp) {
 
 class App extends Component {
   componentDidMount() {
-  this.props.fetchPosts()
+    if(this.props.match.params.category) {
+      const { fetchPostsByCategoryId } = this.props
+      const { category } = this.props.match.params
+      //   // match: { params : { category } } } = this.props;
+
+      fetchPostsByCategoryId(category);
+    } else {
+      this.props.fetchPosts()
+    }
   }
 
   render() {
@@ -60,14 +68,14 @@ class App extends Component {
                           <Link to={`/${posts[key].category}/${posts[key].id}`}>
                             <h1 className="mt-4 post-preview">{posts[key].title}</h1>
                           </Link>
-                          <p>
+                          <p className="lead">
                             by <a href="#" className="lead destaq">{posts[key].author}</a>
                           </p>
                         </Col>
                       </Row>
                       <Row>
                         <Col lg={6}>
-                        <p>Posted on  {timestampToDate(posts[key].timestamp)}</p>
+                          <p>Posted on  {timestampToDate(posts[key].timestamp)}</p>
                         </Col>
                         <Col lg={4}  className="text-xs-right">
                           {`Comments `} 
@@ -106,8 +114,6 @@ class App extends Component {
                   ))
                 }
                 </ListGroup>
-                
-
               </Col>
               <Col md={4}>
                 <Category></Category>

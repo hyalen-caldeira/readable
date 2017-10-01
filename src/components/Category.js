@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Panel } from 'react-bootstrap';
-// import { fetchCategories } from '../actions'
-import * as actions from '../actions'
+import * as actions from '../actions';
+import { Link } from 'react-router-dom';
 
 const title = (
     <h1>Categories</h1>
@@ -14,14 +14,20 @@ class Category extends Component {
     }
 
     render() {
-        const { categories } = this.props
+        const { categories, fetchPostsByCategoryId } = this.props
         
         return (
             <div>
                 <Panel header={title}> 
                 {    
                     Object.keys(categories).map((key, index) => (
-                        <div key={key}>{categories[key].name}</div>
+                        <div key={key}>
+                            <Link 
+                                to={`/${categories[key].path}`}
+                                onClick={() => fetchPostsByCategoryId(categories[key].path)}>
+                                {categories[key].name}
+                            </Link>
+                        </div>
                     ))
                 }
                 </Panel>

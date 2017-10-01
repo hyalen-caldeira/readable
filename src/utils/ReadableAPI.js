@@ -32,6 +32,11 @@ export const getPostDetail = (id) => (
     axios.get(`${api}/posts/${id}`)
 )
 
+// Posts by category id
+export const fetchPostsByCategoryId = (categoryId) => (
+    axios.get(`${api}/${categoryId}/posts`)
+)
+
 // Comments by post id
 export const fetchCommentsByPostId = (id) => (
     axios.get(`${api}/posts/${id}/comments`)
