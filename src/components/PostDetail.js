@@ -16,7 +16,8 @@ const {
     Label,
     ListGroup,
     ListGroupItem,
-    Glyphicon
+    Glyphicon,
+    Button
   } = ReactBootstrap;
 
   const wellStyles = {margin: '0 auto 10px'};
@@ -26,6 +27,10 @@ class PostDetail extends Component {
         const { id } = this.props.match.params;
         this.props.fetchPostDetail(id);
         this.props.fetchCommentsByPostId(id);
+    }
+
+    onVotePost(postId, option) {
+        this.props.votePost(postId, option)
     }
 
     render() {
@@ -59,7 +64,7 @@ class PostDetail extends Component {
                                                 {` ${timestampToDate(post.timestamp)}`}
                                             </p>
                                         </Col>
-                                        <Col lg={4} className="text-xs-right">
+                                        <Col lg={3} className="text-xs-right">
                                             {`Comments `} 
                                             <h7>
                                                 <Label
@@ -70,15 +75,17 @@ class PostDetail extends Component {
                                                 </Label>
                                             </h7>
                                         </Col>
-                                        <Col lg={2} className="text-xs-right">
+                                        <Col lg={3} className="text-xs-right">
                                         <h7>
                                             {`Score `}
+                                            <Button bsSize="xsmall" onClick={() => this.onVotePost(post.id,'upVote')} ><Glyphicon  glyph="glyphicon glyphicon-plus-sign" /></Button>
                                             <Label
                                                 className="text-xs-right"
                                                 bsSize="small"
                                                 bsStyle={post.voteScore < 0 ? "danger": "default"}>
                                                     {post.voteScore}
                                             </Label>
+                                            <Button bsSize="xsmall" onClick={() => this.onVotePost(post.id,'downVote')} ><Glyphicon  glyph="glyphicon glyphicon-minus-sign" /></Button>
                                         </h7>
                                         </Col>
                                     </Row>

@@ -5,8 +5,12 @@ import {
     FETCH_POSTS,
     FETCH_POSTS_BY_CATEGORY_ID,
     FETCH_POST_DETAIL,
+    VOTE_POST,
+    DELETE_POST,
     FETCH_COMMENTS_BY_POST_ID,
-    FETCH_CATEGORIES
+    VOTE_COMMENT,
+    DELETE_COMMENT,
+    FETCH_CATEGORIES,
  } from './types'
 
 // Categories
@@ -34,6 +38,7 @@ export const fetchCategories = () => dispatch => (
 // Posts
 export const fetchPosts = () => dispatch => (
     ReadableAPI.fetchPosts().then(({data}) => {
+        console.log('Dentro de action fetchPosts >>>>>>>>>', data)
         dispatch({
             type: STATE_LOADING,
             loading: true
@@ -106,6 +111,24 @@ export const statePostOrder = (order) => dispatch => (
     })
 )
 
+export const votePost = (postId, option) => dispatch => (
+    ReadableAPI.votePost(postId, option).then(({data}) => {
+        dispatch({
+            type: VOTE_POST,
+            post: data
+        })
+    })
+)
+
+export const deletePost = (postId) => dispatch => (
+    ReadableAPI.deletePost(postId).then(({data}) => {
+        dispatch({
+            type: DELETE_POST,
+            postId
+        })
+    })
+)
+
 // Comments
 export const fetchCommentsByPostId = (id) => dispatch => (
     ReadableAPI.fetchCommentsByPostId(id).then(({data}) => {
@@ -123,6 +146,24 @@ export const fetchCommentsByPostId = (id) => dispatch => (
         dispatch({
             type: STATE_LOADING,
             loading: false
+        })
+    })
+)
+
+export const voteComment = (commentId, option) => dispatch => (
+    ReadableAPI.voteComment(commentId, option).then(({data}) => {
+        dispatch({
+            type: VOTE_COMMENT,
+            comment: data
+        })
+    })
+)
+
+export const deleteComment = (commentId) => dispatch => (
+    ReadableAPI.deleteComment(commentId).then(({data}) => {
+        dispatch({
+            type: DELETE_COMMENT,
+            comment: data
         })
     })
 )

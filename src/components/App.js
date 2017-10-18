@@ -7,12 +7,24 @@ import Category from './Category'
 import * as actions from '../actions'
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
+import { Field, reduxForm } from 'redux-form';
 
-// Na tela principal  
-//   Exibir a categoria
-// Comments
-//   Usar o mesmo layout da pagina principal
-//   Criar component
+// Para editar alguma coisa
+// Collapsible Panel
+
+// Inserir novo comentario
+
+// Inserir novo post
+
+// Filtrar comentarios excluidos
+
+// Filtrar posts excluidos
+
+// Retornar mensagem de "nao existe"
+
+// Editar posts
+
+// Editar comments
 
 const {
   Grid,
@@ -21,7 +33,9 @@ const {
   Panel,
   ListGroup,
   ListGroupItem,
-  Label
+  Label,
+  Button,
+  Glyphicon
 } = ReactBootstrap;
 
 const wellStyles = {margin: '0 auto 10px'};
@@ -45,8 +59,18 @@ class App extends Component {
     }
   }
 
+  onVotePost(postId, option) {
+    this.props.votePost(postId, option)
+  }
+
+  onDeletePost(postId) {
+    this.props.deletePost(postId)
+    alert("Post deleted")
+  }
+
   render() {
-    const { posts, comments } = this.props
+    const { posts, comments, postOrder } = this.props
+    const sortedPosts = _.sortBy(posts, postOrder).reverse()
 
     return (
       <div className="App">
@@ -60,58 +84,68 @@ class App extends Component {
               <Col lg={8}>
                 <ListGroup>
                 {
-                  Object.keys(posts).map((key, index) => (
-                    
-                    <ListGroupItem className="well" key={key} style={wellStyles}>
-                      <Row className="show-grid"> 
-                        <Col lg={12}>
-                          <Link to={`/${posts[key].category}/${posts[key].id}`}>
-                            <h1 className="mt-4 post-preview">{posts[key].title}</h1>
-                          </Link>
+                  // Object.keys(posts).map((key) => (
+                  sortedPosts.map(post => {
+                    if (!post.deleted) {
+                      return (
+                        <ListGroupItem className="well" key={post.id} style={wellStyles}>
+                          <Row className="show-grid"> 
+                            <Col lg={12}>
+                              <Link to={`/${post.category}/${post.id}`}>
+                                <h1 className="mt-4 post-preview">{post.title}</h1>
+                              </Link>
+                              <p className="lead">
+                                by <a href="#" className="lead destaq">{post.author}</a>
+                              </p>
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col lg={4}>
+                              <p>Posted on  {timestampToDate(post.timestamp)}</p>
+                            </Col>
+                            <Col lg={3}  className="text-xs-right">
+                              {`Comments `} 
+                              <h7>
+                                <Label
+                                  className="text-xs-right"
+                                  bsSize="small"
+                                  bsStyle="default">
+                                    {_.size(comments[post.id])}
+                                </Label>
+                              </h7>
+                            </Col>
+                            <Col lg={3} className="text-xs-right">
+                              <h7>
+                                {`Score `}
+                                <Button bsSize="xsmall" onClick={() => this.onVotePost(post.id,'upVote')} ><Glyphicon  glyph="glyphicon glyphicon-plus-sign" /></Button>
+                                <Label
+                                  className="text-xs-right"
+                                  bsSize="small"
+                                  bsStyle={post.voteScore < 0 ? "danger": "default"}>
+                                    {post.voteScore}
+                                </Label>
+                                <Button bsSize="xsmall" onClick={() => this.onVotePost(post.id,'downVote')} ><Glyphicon  glyph="glyphicon glyphicon-minus-sign" /></Button>
+                              </h7>
+                            </Col>
+                            <Col lg={2} className="text-xs-right">
+                              {/* <Button bsSize="xsmall" onClick={() => this.setState({ open: !this.state.open })}><Glyphicon  glyph="glyphicon glyphicon-edit" /></Button> */}
+                              <Button bsSize="xsmall" onClick={() => this.onDeletePost(post.id)} bsStyle="danger">Del <Glyphicon  glyph="glyphicon glyphicon-remove" /></Button>
+                            </Col>
+                          </Row>
+
+                          {/* Preview Image */}
+                          <img className="img-fluid rounded" src="http://placehold.it/900x300" alt=""/>
+                          <hr/>
+
+                          {/* Post Content */}
                           <p className="lead">
-                            by <a href="#" className="lead destaq">{posts[key].author}</a>
+                            {post.body}
                           </p>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col lg={6}>
-                          <p>Posted on  {timestampToDate(posts[key].timestamp)}</p>
-                        </Col>
-                        <Col lg={4}  className="text-xs-right">
-                          {`Comments `} 
-                          <h7>
-                            <Label
-                              className="text-xs-right"
-                              bsSize="small"
-                              bsStyle="default">
-                                {_.size(comments[posts[key].id])}
-                            </Label>
-                          </h7>
-                        </Col>
-                        <Col lg={2} className="text-xs-right">
-                          <h7>
-                            {`Score `}
-                            <Label
-                              className="text-xs-right"
-                              bsSize="small"
-                              bsStyle={posts[key].voteScore < 0 ? "danger": "default"}>
-                                {posts[key].voteScore}
-                            </Label>
-                          </h7>
-                        </Col>
-                      </Row>
-
-                      {/* Preview Image */}
-                      <img className="img-fluid rounded" src="http://placehold.it/900x300" alt=""/>
-                      <hr/>
-
-                      {/* Post Content */}
-                      <p className="lead">
-                        {posts[key].body}
-                      </p>
-                      {/* <hr/> */}
-                    </ListGroupItem>
-                  ))
+                          {/* <hr/> */}
+                        </ListGroupItem>
+                      )
+                    }
+                  })
                 }
                 </ListGroup>
               </Col>
@@ -131,10 +165,12 @@ class App extends Component {
   }
 }
 
-function mapStateToProps ({posts, comments}) {
+function mapStateToProps ({posts, comments, order}) {
   return {
-    posts,
-    comments
+    // posts,
+    posts: _.filter(posts, post => !post.deleted),
+    comments,
+    postOrder : order
   }
 }
 

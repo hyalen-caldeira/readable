@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 // import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import * as ReactBootstrap from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import * as actions from '../actions'
 
 const {
   Navbar,
@@ -11,8 +13,14 @@ const {
   MenuItem,
   Glyphicon
 } = ReactBootstrap;
-  
+
 class NavbarInstance extends Component {
+  onSelect(event) {
+    console.log('Dentro de NavbarInstance', event)
+
+    this.props.statePostOrder(event)
+  }
+
   render() {
     return (
       <Navbar inverse collapseOnSelect>
@@ -27,16 +35,18 @@ class NavbarInstance extends Component {
         <Navbar.Collapse>
           <Nav>
             <NavItem eventKey={1}>
-              <Glyphicon glyph="glyphicon glyphicon glyphicon-home" />
-              {` Home`}
+              <Link to='/'>
+                <Glyphicon glyph="glyphicon glyphicon glyphicon-home" />
+                {` Home`}
+              </Link>
             </NavItem>
             <NavItem eventKey={2} href="#">
               <Glyphicon glyph="glyphicon glyphicon glyphicon-plus" />
               {` Add Post`}
             </NavItem>
             <NavDropdown eventKey={3} title="Sort By" id="basic-nav-dropdown">
-              <MenuItem eventKey={3.1}>Date</MenuItem>
-              <MenuItem eventKey={3.2}>Vote Score</MenuItem>
+              <MenuItem onSelect={(event) => this.onSelect(event)} eventKey={'timestamp'}>Date</MenuItem>
+              <MenuItem onSelect={(event) => this.onSelect(event)} eventKey={'voteScore'}>Vote Score</MenuItem>
               <MenuItem eventKey={3.3} disabled={true}>Something else here</MenuItem>
               <MenuItem divider />
               <MenuItem eventKey={3.3} disabled={true}>Something else here</MenuItem>
@@ -52,4 +62,8 @@ class NavbarInstance extends Component {
   }
 }
 
-export default NavbarInstance;
+function mapStateToProps (state) {
+  return state
+}
+
+export default connect(mapStateToProps, actions)(NavbarInstance);
