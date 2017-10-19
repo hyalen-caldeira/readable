@@ -1,4 +1,5 @@
 import * as ReadableAPI from '../utils/ReadableAPI'
+import uuidv4 from 'uuid/v4'
 import { 
     STATE_LOADING,
     STATE_POST_ORDER,
@@ -10,7 +11,11 @@ import {
     FETCH_COMMENTS_BY_POST_ID,
     VOTE_COMMENT,
     DELETE_COMMENT,
+    UPDATE_COMMENT,
+    NEW_COMMENT,
     FETCH_CATEGORIES,
+    OPEN_MODAL,
+    CLOSE_MODAL
  } from './types'
 
 // Categories
@@ -167,3 +172,54 @@ export const deleteComment = (commentId) => dispatch => (
         })
     })
 )
+
+export const updateComment = (commentId, values, callback) => dispatch => {
+    const { body } = values
+
+    const data = {
+        body,
+        date: Date.now()
+    }
+
+    ReadableAPI.updateComment(commentId, data).then(({data}) => {
+        dispatch({
+            type: UPDATE_COMMENT,
+            data
+        })
+    }).then(() => callback())
+}
+
+export const newComment = (values, postId) => {
+    const data = {
+        id: uuidv4(),
+        timestamp: Date.now(),
+        body: values.content,
+        author: values.author,
+        parentId: postId
+    }
+
+    return dispatch => {
+        ReadableAPI.newComment(data).then(({data}) => {
+            dispatch({
+                type: NEW_COMMENT,
+                data
+            })
+        })
+    }
+}
+
+// Modals
+
+export function openModal(modal) {
+    return {
+      type: OPEN_MODAL,
+      payload: modal
+    }
+}
+  
+export function closeModal(modal) {
+    return {
+      type: CLOSE_MODAL,
+      payload: modal
+    }
+}

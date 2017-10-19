@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form'
-import { Form, FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Form, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import * as actions from '../actions'
 
 class CommentsEdit extends Component {
@@ -12,10 +11,13 @@ class CommentsEdit extends Component {
 
     handleInitialize() {
         if (this.props.comment) {
-            let initData = {
+            console.log('Comment Initialize -> ', this.props.comment)
+
+            const initData = {
                 "body": this.props.comment.body
             };
 
+            console.log('initData -> ', initData)
             this.props.initialize(initData);
         }
     }
@@ -49,31 +51,23 @@ class CommentsEdit extends Component {
     }
 
     onSubmit(values) {
-        const { commentId } = this.props.match.params;
-
-        this.props.updateComment(commentId, values, () => {
-            this.props.history.goBack();
-        });
+        
     }
 
     render() {
         const { handleSubmit, pristine, reset, submitting } = this.props
 
         return (
-            <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+            //<form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+            <form onSubmit={handleSubmit}>
                 <Field name="body" type="textarea" component={this.renderField} label="Body" placeholder="Body ..."/>
                 <div>
-                    <button className="btn-primary" type="submit" disabled={pristine || submitting}>
+                    <button type="submit" disabled={pristine || submitting}>
                         Submit
                     </button>
                     <button type="button" disabled={pristine || submitting} onClick={reset}>
-                        Reset Changes
+                        Clear Values
                     </button>
-                    <Link to="/">
-                        <Button bsSize="small" bsStyle="danger">
-                            Cancel
-                        </Button>
-                    </Link>
                 </div>
             </form>
         )
@@ -81,7 +75,7 @@ class CommentsEdit extends Component {
 }
 
 function mapStateToProps({ comments }, ownProps) {
-    return { comment: comments[ownProps.match.params.postId][ownProps.match.params.commentId] }
+    return { comment: comments[ownProps.postId][ownProps.commentId] }
 }
 
 export default reduxForm({

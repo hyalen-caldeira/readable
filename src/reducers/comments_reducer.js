@@ -2,7 +2,9 @@ import _ from 'lodash';
 import { 
     FETCH_COMMENTS_BY_POST_ID,
     VOTE_COMMENT,
-    DELETE_COMMENT
+    DELETE_COMMENT,
+    UPDATE_COMMENT,
+    NEW_COMMENT
 } from '../actions/types';
 
 const initialCommentsState = {}
@@ -23,8 +25,32 @@ export default function(state=initialCommentsState, action) {
         case DELETE_COMMENT:
             return {
                 ...state,
-                [action.comment.parentId]: {...state[action.comment.parentId],
-                [action.comment.id]: {...action.comment, deleted: true}}
+                [action.comment.parentId]: {
+                    ...state[action.comment.parentId],
+                    [action.comment.id]: {
+                        ...action.comment, 
+                        deleted: true
+                    }
+                }
+            }
+        case UPDATE_COMMENT:
+            return {
+                ...state,
+                [action.data.parentId]: {
+                    ...state[action.data.parentId],
+                    [action.data.id]: {
+                        ...action.data
+                    }
+                }
+            }
+        case NEW_COMMENT:
+            return {
+                ...state,
+                [action.data.parentId]: {
+                    ...state[action.data.parentId],
+                    [action.data.id]: {...action.data
+                    }
+                }
             }
         default:
             return state;

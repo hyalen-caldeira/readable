@@ -63,3 +63,13 @@ export const voteComment = (commentId, option) => (
 export const deleteComment = commentId => (
     axios.delete(`${api}/comments/${commentId}`)
 )
+
+// Update comment
+export const updateComment = (commentId, data) => (
+    axios.put(`${api}/comments/${commentId}`, data)
+)
+
+// New comment
+export const newComment = data => (
+    axios.post(`${api}/comments`, data)
+)

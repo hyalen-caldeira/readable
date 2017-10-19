@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import App from './components/App';
 import PostDetail from './components/PostDetail';
+import CommentsEdit from './components/CommentsEdit';
 import SimpleForm from './components/SimpleForm';
 import registerServiceWorker from './registerServiceWorker';
 import { createStore, applyMiddleware, compose } from 'redux';
@@ -12,14 +13,14 @@ import mainReducer from './reducers/main_reducer'
 import './index.css';
 import { Grid } from 'react-bootstrap';
 
-const logger = store => next => action => {
-    console.group(action.type)
-    console.info('dispatching', action)
-    let result = next(action)
-    console.log('next state', store.getState())
-    console.groupEnd(action.type)
-    return result
-}
+// const logger = store => next => action => {
+//     console.group(action.type)
+//     console.info('dispatching', action)
+//     let result = next(action)
+//     console.log('next state', store.getState())
+//     console.groupEnd(action.type)
+//     return result
+// }
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
@@ -37,6 +38,7 @@ ReactDOM.render(
         <div>
         <Grid>
             <Switch>
+                <Route path="/comments/edit/:postId/:commentId" component={CommentsEdit} />
                 <Route path="/:category/:id" component={PostDetail}></Route>
                 <Route path="/:category" component={App}></Route>
                 <Route exact path="/" component={App}></Route>
