@@ -44,8 +44,19 @@ export const votePost = (postId, option) => (
     axios.post(`${api}/posts/${postId}`, {option:option})
 )
 
+// Delete post
 export const deletePost = postId => (
     axios.delete(`${api}/posts/${postId}`)
+)
+
+// New post
+export const newPost = data => (
+    axios.post(`${api}/posts`, data)
+)
+
+// Update post
+export const updatePost = (postId, data) => (
+    axios.put(`${api}/posts/${postId}`, data)
 )
 
 // --------- Comments

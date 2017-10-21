@@ -8,6 +8,8 @@ import {
     FETCH_POST_DETAIL,
     VOTE_POST,
     DELETE_POST,
+    NEW_POST,
+    UPDATE_POST,
     FETCH_COMMENTS_BY_POST_ID,
     VOTE_COMMENT,
     DELETE_COMMENT,
@@ -133,6 +135,46 @@ export const deletePost = (postId) => dispatch => (
         })
     })
 )
+
+export const newPost = (values) => {
+    const { author, title, content, category } = values
+
+    const data = {
+        id : uuidv4(),
+        timestamp : Date.now(),
+        title,
+        body : content,
+        author,
+        category
+      }
+
+    return dispatch => {
+        ReadableAPI.newPost(data).then(({data}) => {
+            dispatch({
+                type: NEW_POST,
+                data
+            })
+        })
+    }
+}
+
+export function updatePost(postId, values, callback) {
+    const { title, body } = values;
+  
+    const data = {
+      title,
+      body
+    }
+  
+    return dispatch => {
+        ReadableAPI.updatePost(postId, data).then(({data}) => {
+            dispatch({
+                type: UPDATE_POST,
+                data
+            })
+        }).then(() => callback())
+    }
+}
 
 // Comments
 export const fetchCommentsByPostId = (id) => dispatch => (

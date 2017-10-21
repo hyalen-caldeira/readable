@@ -41,9 +41,11 @@ class NavbarInstance extends Component {
               </Link>
             </NavItem>
             <NavItem eventKey={2} href="#">
-              <Glyphicon glyph="glyphicon glyphicon glyphicon-plus" />
-              {` Add Post`}
-            </NavItem>
+              <Link to='/posts'>
+                <Glyphicon glyph="glyphicon glyphicon glyphicon-plus" />
+                {` Add Post`}
+              </Link>
+              </NavItem>
             <NavDropdown eventKey={3} title="Sort By" id="basic-nav-dropdown">
               <MenuItem onSelect={(event) => this.onSelect(event)} eventKey={'timestamp'}>Date</MenuItem>
               <MenuItem onSelect={(event) => this.onSelect(event)} eventKey={'voteScore'}>Vote Score</MenuItem>

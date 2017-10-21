@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import App from './components/App';
 import PostDetail from './components/PostDetail';
+import PostEdit from './components/PostEdit';
 import CommentsEdit from './components/CommentsEdit';
+import PostNew from './components/PostNew';
 import SimpleForm from './components/SimpleForm';
 import registerServiceWorker from './registerServiceWorker';
 import { createStore, applyMiddleware, compose } from 'redux';
@@ -38,7 +40,9 @@ ReactDOM.render(
         <div>
         <Grid>
             <Switch>
-                <Route path="/comments/edit/:postId/:commentId" component={CommentsEdit} />
+                <Route exact path="/posts" component={PostNew}></Route>
+                <Route path="/posts/:postId" component={PostEdit}></Route>
+                <Route path="/comments/edit/:postId/:commentId" component={CommentsEdit}></Route>
                 <Route path="/:category/:id" component={PostDetail}></Route>
                 <Route path="/:category" component={App}></Route>
                 <Route exact path="/" component={App}></Route>

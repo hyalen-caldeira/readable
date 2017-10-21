@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import * as actions from '../actions';
 import { connect } from 'react-redux';
 import NavbarInstance from './NavbarInstance';
+import { Link } from 'react-router-dom';
 import Category from './Category';
 import Comments from './Comments';
 import * as ReactBootstrap from 'react-bootstrap';
@@ -33,6 +34,12 @@ class PostDetail extends Component {
         this.props.votePost(postId, option)
     }
 
+    onDeletePost(postId) {
+        this.props.deletePost(postId)
+        alert("Post deleted")
+        this.props.history.goBack()
+    }
+
     render() {
         const { id } = this.props.match.params
         const { post, comments } = this.props
@@ -57,7 +64,7 @@ class PostDetail extends Component {
                                     </Row>
                                     {/* Date/Time */}
                                     <Row>
-                                        <Col lg={6}>
+                                        <Col lg={4}>
                                             <p>
                                                 {`Posted on `}
                                                 <Glyphicon glyph="glyphicon glyphicon glyphicon-time" /> 
@@ -76,17 +83,27 @@ class PostDetail extends Component {
                                             </h7>
                                         </Col>
                                         <Col lg={3} className="text-xs-right">
-                                        <h7>
-                                            {`Score `}
-                                            <Button bsSize="xsmall" onClick={() => this.onVotePost(post.id,'upVote')} ><Glyphicon  glyph="glyphicon glyphicon-plus-sign" /></Button>
-                                            <Label
-                                                className="text-xs-right"
-                                                bsSize="small"
-                                                bsStyle={post.voteScore < 0 ? "danger": "default"}>
-                                                    {post.voteScore}
-                                            </Label>
-                                            <Button bsSize="xsmall" onClick={() => this.onVotePost(post.id,'downVote')} ><Glyphicon  glyph="glyphicon glyphicon-minus-sign" /></Button>
-                                        </h7>
+                                            <h7>
+                                                {`Score `}
+                                                <Button bsSize="xsmall" onClick={() => this.onVotePost(post.id,'upVote')} ><Glyphicon  glyph="glyphicon glyphicon-plus-sign" /></Button>
+                                                <Label
+                                                    className="text-xs-right"
+                                                    bsSize="small"
+                                                    bsStyle={post.voteScore < 0 ? "danger": "default"}>
+                                                        {post.voteScore}
+                                                </Label>
+                                                <Button bsSize="xsmall" onClick={() => this.onVotePost(post.id,'downVote')} ><Glyphicon  glyph="glyphicon glyphicon-minus-sign" /></Button>
+                                            </h7>
+                                        </Col>
+                                        <Col lg={2} className="text-xs-right">
+                                            {/* <Button bsSize="xsmall" onClick={() => this.setState({ open: !this.state.open })}><Glyphicon  glyph="glyphicon glyphicon-edit" /></Button> */}
+                                            <Button bsSize="xsmall">
+                                                <Link style={{"marginLeft":"5px"}}
+                                                    to={`/posts/new`}>
+                                                    <Glyphicon glyph="glyphicon glyphicon-edit"/>
+                                                </Link>
+                                            </Button>
+                                            <Button bsSize="xsmall" onClick={() => this.onDeletePost(post.id)} bsStyle="danger"><Glyphicon  glyph="glyphicon glyphicon-remove" /></Button>
                                         </Col>
                                     </Row>
 

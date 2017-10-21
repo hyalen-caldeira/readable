@@ -129,7 +129,13 @@ class App extends Component {
                             </Col>
                             <Col lg={2} className="text-xs-right">
                               {/* <Button bsSize="xsmall" onClick={() => this.setState({ open: !this.state.open })}><Glyphicon  glyph="glyphicon glyphicon-edit" /></Button> */}
-                              <Button bsSize="xsmall" onClick={() => this.onDeletePost(post.id)} bsStyle="danger">Del <Glyphicon  glyph="glyphicon glyphicon-remove" /></Button>
+                              <Button bsSize="xsmall">
+                                <Link style={{"marginLeft":"5px"}}
+                                    to={`/posts/${post.id}`}>
+                                    <Glyphicon glyph="glyphicon glyphicon-edit"/>
+                                </Link>
+                              </Button>
+                              <Button bsSize="xsmall" onClick={() => this.onDeletePost(post.id)} bsStyle="danger"><Glyphicon  glyph="glyphicon glyphicon-remove" /></Button>
                             </Col>
                           </Row>
 

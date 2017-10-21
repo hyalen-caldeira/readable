@@ -140,10 +140,12 @@ class Comments extends Component {
                                             </Col>
                                             <Col md={2}>
                                                 {/* <Button bsSize="xsmall" ><Glyphicon  glyph="glyphicon glyphicon-edit" /></Button> */}
-                                                <Link style={{"marginLeft":"5px"}}
-                                                    to={`/comments/edit/${id}/${key}`}>
-                                                    <Glyphicon glyph="glyphicon glyphicon-edit"/>
-                                                </Link>
+                                                <Button bsSize="xsmall">
+                                                    <Link style={{"marginLeft":"5px"}}
+                                                        to={`/comments/edit/${id}/${key}`}>
+                                                        <Glyphicon glyph="glyphicon glyphicon-edit"/>
+                                                    </Link>
+                                                </Button>
                                                 <Button bsSize="xsmall" onClick={() => this.onDeleteComment(comments[id][key].id)} bsStyle="danger"><Glyphicon  glyph="glyphicon glyphicon-remove" /></Button>
                                             </Col>
                                         </Row>

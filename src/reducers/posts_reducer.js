@@ -4,7 +4,9 @@ import {
     FETCH_POSTS_BY_CATEGORY_ID,
     FETCH_POST_DETAIL,
     VOTE_POST,
-    DELETE_POST
+    DELETE_POST,
+    NEW_POST,
+    UPDATE_POST
 } from '../actions/types';
 
 const initialPostsState = {}
@@ -30,17 +32,22 @@ export default function(state=initialPostsState, action) {
                 [action.post.id] : {...action.post}
             };
         case DELETE_POST:
-            console.log('Dentro de Post Reducer - action.id', action.id)
-            console.log('Dentro de Post Reducer', {...state,
-                [action.id]: {...state[action.id],
-                  deleted: true }})
-            console.log('Dentro de Post Reducer - action.postId', action.postId)
             return {
                 ...state,
                 [action.postId]: {
                     ...state[action.postId],
                     deleted: true }
             };
+        case NEW_POST:
+            return {
+                ...state,
+                [action.data.id] : {...action.data}
+            }
+        case UPDATE_POST:
+            return {
+                ...state,
+                [action.data.id]: action.data
+            }
         default:
             return state;
     }
