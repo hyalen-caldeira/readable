@@ -20,7 +20,6 @@ export const stateLoadingReducer = (state=initialStateLoading, action) => {
     }
 }
 
-
 const initialStatePostOrder = 'voteScore'
 
 export const statePostOrder = (state=initialStatePostOrder, action) => {

@@ -108,8 +108,8 @@ function mapStateToProps({ categories }) {
 }
 
 export default reduxForm({
-  form: 'PostsNewForm',  // a unique identifier for this form
-  validate,                // <--- validation function given to redux-form
+  form: 'PostsNewForm',  // A unique identifier for this form
+  validate,              // redux-form validation function
 })(
   connect(mapStateToProps, actions)(PostNew)
 );

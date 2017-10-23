@@ -36,27 +36,6 @@ class Category extends Component {
     }
 }
 
-// const Category = () => {
-//     console.log('Props Category', this.props)
-
-//     return (
-//         <div>
-//             <Panel header={title}>
-//                 Panel content
-//             </Panel>
-//         </div>
-//     )
-// }
-
-// function mapStateToProps ({category}) {
-//     console.log('Olha eu aqui, oh ...', category)
-//     return {
-//       category: [{name:category.name, url:category.url}]
-//     }
-//   }
-
-// export default connect(mapStateToProps)(Category);
-
 function mapStateToProps (state) {
     return {
       categories: state.categories
@@ -64,4 +43,3 @@ function mapStateToProps (state) {
 }
 
 export default connect(mapStateToProps, actions)(Category);
-// export default Category;

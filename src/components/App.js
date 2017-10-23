@@ -157,7 +157,6 @@ class App extends Component {
 
 function mapStateToProps ({posts, comments, order}) {
   return {
-    // posts,
     posts: _.filter(posts, post => !post.deleted),
     comments,
     postOrder : order

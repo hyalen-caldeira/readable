@@ -43,6 +43,4 @@ class CommentsNew extends Component {
 
 export default reduxForm({
   form: 'CommentsNewForm',  // a unique identifier for this form
-})(
-  connect(null, actions)(CommentsNew)
-);
+})(connect(null, actions)(CommentsNew))

@@ -248,19 +248,3 @@ export const newComment = (values, postId) => {
         })
     }
 }
-
-// Modals
-
-export function openModal(modal) {
-    return {
-      type: OPEN_MODAL,
-      payload: modal
-    }
-}
-  
-export function closeModal(modal) {
-    return {
-      type: CLOSE_MODAL,
-      payload: modal
-    }
-}
