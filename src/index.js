@@ -1,19 +1,18 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import App from './components/App';
-import PostDetail from './components/PostDetail';
-import PostEdit from './components/PostEdit';
-import CommentsEdit from './components/CommentsEdit';
-import PostNew from './components/PostNew';
-import SimpleForm from './components/SimpleForm';
-import registerServiceWorker from './registerServiceWorker';
-import { createStore, applyMiddleware, compose } from 'redux';
+import App from './components/App'
+import PostDetail from './components/PostDetail'
+import PostEdit from './components/PostEdit'
+import CommentsEdit from './components/CommentsEdit'
+import PostNew from './components/PostNew'
+import registerServiceWorker from './registerServiceWorker'
+import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import mainReducer from './reducers/main_reducer'
-import './index.css';
-import { Grid } from 'react-bootstrap';
+import './index.css'
+import { Grid } from 'react-bootstrap'
 
 // const logger = store => next => action => {
 //     console.group(action.type)

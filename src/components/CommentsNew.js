@@ -4,8 +4,7 @@ import * as actions from '../actions';
 import { connect } from 'react-redux';
 import {
     FormGroup,
-    FormControl,
-    Button
+    FormControl
 } from 'react-bootstrap';
 
 class CommentsNew extends Component {

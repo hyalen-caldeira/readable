@@ -23,6 +23,7 @@ class PostEdit extends Component {
         "title": this.props.post.title,
         "body": this.props.post.body
       };
+
       this.props.initialize(initData);
     }
 }
@@ -48,13 +49,14 @@ class PostEdit extends Component {
 onSubmit(values) {
     const { postId } = this.props.match.params;
     this.props.updatePost(postId, values, () => {
-        this.props.history.push(`/`);
+        this.props.history.goBack();
+        // this.props.history.push(`/`);
     });
 }
 
 
 render () {
-  const { handleSubmit, pristine, reset, submitting, categories, post } = this.props
+  const { handleSubmit, pristine, reset, submitting, post } = this.props
   return (
     <ul className='list-group col-sm-9'>
       <form onSubmit={ handleSubmit(this.onSubmit.bind(this))}>
@@ -65,8 +67,12 @@ render () {
         </FormGroup>
         <Field name="body" type="textarea" component={this.renderField} label="Body" />
         <div>
-          <button className="btn-primary" type="submit" disabled={submitting}>Submit</button>
-          <Link to="/"><Button bsSize="small" bsStyle="danger" >Cancel</Button></Link>
+          <button className="btn-primary" type="submit" disabled={submitting || pristine}>Submit</button>
+          <button type="button" disabled={pristine || submitting} onClick={reset}>
+            Reset Changes
+          </button>
+          {/* <Link to="/"><Button bsSize="small" bsStyle="danger" >Cancel</Button></Link> */}
+          <Button bsSize="small" bsStyle="danger" onClick={() => this.props.history.goBack()}>Cancel</Button>
         </div>
       </form>
     </ul>

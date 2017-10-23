@@ -45,7 +45,6 @@ export const fetchCategories = () => dispatch => (
 // Posts
 export const fetchPosts = () => dispatch => (
     ReadableAPI.fetchPosts().then(({data}) => {
-        console.log('Dentro de action fetchPosts >>>>>>>>>', data)
         dispatch({
             type: STATE_LOADING,
             loading: true
@@ -136,7 +135,7 @@ export const deletePost = (postId) => dispatch => (
     })
 )
 
-export const newPost = (values) => {
+export const newPost = (values, callback) => {
     const { author, title, content, category } = values
 
     const data = {
@@ -154,7 +153,7 @@ export const newPost = (values) => {
                 type: NEW_POST,
                 data
             })
-        })
+        }).then(() => callback())
     }
 }
 

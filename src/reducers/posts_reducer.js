@@ -14,7 +14,6 @@ const initialPostsState = {}
 export default function(state=initialPostsState, action) {
     switch (action.type) {
         case FETCH_POSTS:
-        console.log('Dentro de Post Reducer - Fetch', ...state)
             return {
                 ...state,
                 ..._.mapKeys(action.posts, 'id')

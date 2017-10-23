@@ -16,8 +16,6 @@ const {
 
 class NavbarInstance extends Component {
   onSelect(event) {
-    console.log('Dentro de NavbarInstance', event)
-
     this.props.statePostOrder(event)
   }
 

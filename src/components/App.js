@@ -1,32 +1,12 @@
-import React, { Component } from 'react';
-import '../App.css';
-import NavbarInstance from './NavbarInstance';
-import { connect } from 'react-redux';
-import * as ReactBootstrap from 'react-bootstrap';
+import React, { Component } from 'react'
+import '../App.css'
+import NavbarInstance from './NavbarInstance'
+import { connect } from 'react-redux'
 import Category from './Category'
 import * as actions from '../actions'
-import { Link } from 'react-router-dom';
-import _ from 'lodash';
-import { Field, reduxForm } from 'redux-form';
-
-// Para editar alguma coisa
-// Collapsible Panel
-
-// Inserir novo comentario
-
-// Inserir novo post
-
-// Filtrar comentarios excluidos
-
-// Filtrar posts excluidos
-
-// Retornar mensagem de "nao existe"
-
-// Editar posts
-
-// Editar comments
-
-const {
+import { Link } from 'react-router-dom'
+import _ from 'lodash'
+import {
   Grid,
   Row,
   Col,
@@ -36,10 +16,13 @@ const {
   Label,
   Button,
   Glyphicon
-} = ReactBootstrap;
+}  from 'react-bootstrap'
 
-const wellStyles = {margin: '0 auto 10px'};
-// panel, grid, tab, Accordions, Form, Media
+// Filtrar comentarios excluidos
+// Filtrar posts excluidos
+// Retornar mensagem de "nao existe"
+
+const wellStyles = {margin: '0 auto 10px'}
 
 function timestampToDate(timestamp) {
   const time = new Date(timestamp)
@@ -128,7 +111,6 @@ class App extends Component {
                               </h7>
                             </Col>
                             <Col lg={2} className="text-xs-right">
-                              {/* <Button bsSize="xsmall" onClick={() => this.setState({ open: !this.state.open })}><Glyphicon  glyph="glyphicon glyphicon-edit" /></Button> */}
                               <Button bsSize="xsmall">
                                 <Link style={{"marginLeft":"5px"}}
                                     to={`/posts/${post.id}`}>
@@ -151,6 +133,8 @@ class App extends Component {
                         </ListGroupItem>
                       )
                     }
+
+                    return ""
                   })
                 }
                 </ListGroup>

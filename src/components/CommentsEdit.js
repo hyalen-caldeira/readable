@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form'
-import { Form, FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap';
+import { FormGroup, FormControl, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import * as actions from '../actions'
 
@@ -20,23 +20,7 @@ class CommentsEdit extends Component {
         }
     }
 
-    // renderField(field) {
-    //     const { meta: { touched, error } } = field;
-    //     const className = touched && error ? "warning": null;
-
-    //     return (
-    //         <FormGroup>
-    //             <label>{field.label}</label>
-    //             <FormControl
-    //                 type="text"
-    //                 {...field.input}
-    //             />
-    //         </FormGroup>
-    //     );
-    // }
-
     renderField(field) {
-        console.log('field ->', field)
         return (
             <FormGroup>
                 <label>{field.label}</label>
@@ -52,7 +36,7 @@ class CommentsEdit extends Component {
         const { commentId } = this.props.match.params;
 
         this.props.updateComment(commentId, values, () => {
-            this.props.history.goBack();
+            this.props.history.goBack()
         });
     }
 

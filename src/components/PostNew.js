@@ -12,10 +12,14 @@ import {
 function validate(values) {
     const errors = {};
 
-    !values.title ? errors.title = "Enter a title!" : ""
-    !values.author ? errors.author = "Enter a name!" : ""
-    !values.content ? errors.content = "Enter some content!" : ""
-    !values.category ? errors.category = "Select a category!" : ""
+    if(!values.title) 
+        errors.title = "Enter a title!"
+    if(!values.author)
+        errors.author = "Enter a name!"
+    if(!values.content)
+        errors.content = "Enter some content!"
+    if(!values.category)
+        errors.category = "Select a category!"
 
     return errors;
 }
@@ -71,11 +75,13 @@ class PostNew extends Component {
   }
 
     onSubmit(values) {
-        this.props.newPost(values);
+        this.props.newPost(values, () => {
+            this.props.history.push(`/`)
+        })
     }
 
   render () {
-    const { handleSubmit, pristine, reset, submitting, categories } = this.props
+    const { handleSubmit, pristine, reset, submitting } = this.props
     return (
       <form onSubmit={ handleSubmit(this.onSubmit.bind(this))}>
         <Field name="title" type="text" component={this.renderField} label="Title"/>
@@ -83,8 +89,14 @@ class PostNew extends Component {
         <Field name="category" label="Category:" component={this.renderCategoryFields.bind(this)} />
         <Field name="content" type="textarea" component={this.renderField} label="Content" />
         <div>
-          <button className="btn-primary" type="submit" disabled={submitting}>Submit</button>
-          <button className="btn-danger" type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
+            <button className="btn-primary" type="submit" disabled={pristine || submitting}>Submit</button>
+            <button className="btn-danger" type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
+            {/* <Link to="/">
+                <Button bsSize="small" bsStyle="danger">
+                    Cancel
+                </Button>
+            </Link> */}
+            <Button bsSize="small" bsStyle="danger" onClick={() => this.props.history.goBack()}>Cancel</Button>
         </div>
       </form>
     )
