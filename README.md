@@ -37,7 +37,7 @@ Remember that good React design practice is to create new JS files for each comp
 
 ## Backend Server
 
-Refer to the [local backend development server](https://github.com/udacity/reactnd-project-readable-starter) to proceed with the backend server installation. This repository includes the code for the backend API Server that you'll use to develop and interact with the front-end portion of the project. Basically you need to:
+Refer to the "[local backend development server](https://github.com/udacity/reactnd-project-readable-starter)" to proceed with the backend server installation. This repository includes the code for the backend API Server that you'll use to develop and interact with the front-end portion of the project. Basically you need to:
 
 * Install and start the API server
     - `cd api-server`
