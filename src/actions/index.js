@@ -72,6 +72,21 @@ export const fetchPosts = () => dispatch => (
     })
 )
 
+// export const fetchPostDetail = (id) => dispatch => {
+//     dispatch({
+//         type: STATE_LOADING,
+//         loading: true
+//     })
+
+//     ReadableAPI.getPostDetail(id).then(({data}) => {
+//         dispatch({
+//             type: FETCH_POST_DETAIL,
+//             post: data,
+//             loading: false
+//         })
+//     })
+// }
+
 export const fetchPostDetail = (id) => dispatch => (
     ReadableAPI.getPostDetail(id).then(({data}) => {
         dispatch({

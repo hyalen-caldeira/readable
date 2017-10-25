@@ -43,6 +43,15 @@ class PostDetail extends Component {
     render() {
         const { id } = this.props.match.params
         const { post, comments } = this.props
+        
+        if (!post) {
+            return (
+                <div>
+                    <h1>404 Error - No posts found for this category!</h1>
+                </div>
+            ) 
+        } 
+
         return (
             <div>
                 <div><NavbarInstance></NavbarInstance></div>
@@ -99,7 +108,7 @@ class PostDetail extends Component {
                                             {/* <Button bsSize="xsmall" onClick={() => this.setState({ open: !this.state.open })}><Glyphicon  glyph="glyphicon glyphicon-edit" /></Button> */}
                                             <Button bsSize="xsmall">
                                                 <Link style={{"marginLeft":"5px"}}
-                                                    to={`/posts/new`}>
+                                                    to={`/posts/${post.id}`}>
                                                     <Glyphicon glyph="glyphicon glyphicon-edit"/>
                                                 </Link>
                                             </Button>

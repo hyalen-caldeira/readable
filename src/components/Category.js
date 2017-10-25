@@ -10,6 +10,7 @@ const title = (
 
 class Category extends Component {
     componentDidMount() {
+        // Since this list is static, you might consider making this call once in the App.js file.
         this.props.fetchCategories()
     }
 
@@ -23,8 +24,8 @@ class Category extends Component {
                     Object.keys(categories).map((key, index) => (
                         <div key={key}>
                             <Link 
-                                to={`/${categories[key].path}`}
-                                onClick={() => fetchPostsByCategoryId(categories[key].path)}>
+                                to={`/${categories[key].path}`}>
+                                {/* onClick={() => fetchPostsByCategoryId(categories[key].path)}> */}
                                 {categories[key].name}
                             </Link>
                         </div>

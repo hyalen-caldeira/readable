@@ -19,6 +19,9 @@ export default function(state=initialPostsState, action) {
                 ..._.mapKeys(action.posts, 'id')
             };
         case FETCH_POSTS_BY_CATEGORY_ID:
+            // Instead of replacing the store posts list (requiring a future fetch to get all posts), 
+            // it would be better to handle this view requirement by filtering the all posts list using 
+            // logic in the component.
             return _.mapKeys(action.posts, 'id');
         case FETCH_POST_DETAIL:
             return {

@@ -31,17 +31,9 @@ function timestampToDate(timestamp) {
 
 class App extends Component {
   componentDidMount() {
-    if(this.props.match.params.category) {
-      const { fetchPostsByCategoryId } = this.props
-      const { category } = this.props.match.params
-      //   // match: { params : { category } } } = this.props;
-
-      fetchPostsByCategoryId(category);
-    } else {
-      this.props.fetchPosts()
-    }
+    this.props.fetchPosts()
   }
-
+  
   onVotePost(postId, option) {
     this.props.votePost(postId, option)
   }
@@ -52,8 +44,11 @@ class App extends Component {
   }
 
   render() {
+    const { category } = this.props.match.params
     const { posts, comments, postOrder } = this.props
-    const sortedPosts = _.sortBy(posts, postOrder).reverse()
+
+    const filteredPosts = category ? _.filter(posts, post => post.category === category) : posts
+    const sortedPosts = _.sortBy(filteredPosts, postOrder).reverse()
 
     return (
       <div className="App">
@@ -68,74 +63,78 @@ class App extends Component {
                 <ListGroup>
                 {
                   // Object.keys(posts).map((key) => (
-                  sortedPosts.map(post => {
-                    if (!post.deleted) {
-                      return (
-                        <ListGroupItem className="well" key={post.id} style={wellStyles}>
-                          <Row className="show-grid"> 
-                            <Col lg={12}>
-                              <Link to={`/${post.category}/${post.id}`}>
-                                <h1 className="mt-4 post-preview">{post.title}</h1>
-                              </Link>
-                              <p className="lead">
-                                by <a href="#" className="lead destaq">{post.author}</a>
-                              </p>
-                            </Col>
-                          </Row>
-                          <Row>
-                            <Col lg={4}>
-                              <p>Posted on  {timestampToDate(post.timestamp)}</p>
-                            </Col>
-                            <Col lg={3}  className="text-xs-right">
-                              {`Comments `} 
-                              <h7>
-                                <Label
-                                  className="text-xs-right"
-                                  bsSize="small"
-                                  bsStyle="default">
-                                    {_.size(comments[post.id])}
-                                </Label>
-                              </h7>
-                            </Col>
-                            <Col lg={3} className="text-xs-right">
-                              <h7>
-                                {`Score `}
-                                <Button bsSize="xsmall" onClick={() => this.onVotePost(post.id,'upVote')} ><Glyphicon  glyph="glyphicon glyphicon-plus-sign" /></Button>
-                                <Label
-                                  className="text-xs-right"
-                                  bsSize="small"
-                                  bsStyle={post.voteScore < 0 ? "danger": "default"}>
-                                    {post.voteScore}
-                                </Label>
-                                <Button bsSize="xsmall" onClick={() => this.onVotePost(post.id,'downVote')} ><Glyphicon  glyph="glyphicon glyphicon-minus-sign" /></Button>
-                              </h7>
-                            </Col>
-                            <Col lg={2} className="text-xs-right">
-                              <Button bsSize="xsmall">
-                                <Link style={{"marginLeft":"5px"}}
-                                    to={`/posts/${post.id}`}>
-                                    <Glyphicon glyph="glyphicon glyphicon-edit"/>
+                  sortedPosts.length === 0 ? 
+                    <div>
+                      <h1>No posts found for this category!</h1>
+                    </div> :
+                    sortedPosts.map(post => {
+                      if (!post.deleted) {
+                        return (
+                          <ListGroupItem className="well" key={post.id} style={wellStyles}>
+                            <Row className="show-grid"> 
+                              <Col lg={12}>
+                                <Link to={`/${post.category}/${post.id}`}>
+                                  <h1 className="mt-4 post-preview">{post.title}</h1>
                                 </Link>
-                              </Button>
-                              <Button bsSize="xsmall" onClick={() => this.onDeletePost(post.id)} bsStyle="danger"><Glyphicon  glyph="glyphicon glyphicon-remove" /></Button>
-                            </Col>
-                          </Row>
+                                <p className="lead">
+                                  by <a href="#" className="lead destaq">{post.author}</a>
+                                </p>
+                              </Col>
+                            </Row>
+                            <Row>
+                              <Col lg={4}>
+                                <p>Posted on  {timestampToDate(post.timestamp)}</p>
+                              </Col>
+                              <Col lg={3}  className="text-xs-right">
+                                {`Comments `} 
+                                <h7>
+                                  <Label
+                                    className="text-xs-right"
+                                    bsSize="small"
+                                    bsStyle="default">
+                                      {_.size(comments[post.id])}
+                                  </Label>
+                                </h7>
+                              </Col>
+                              <Col lg={3} className="text-xs-right">
+                                <h7>
+                                  {`Score `}
+                                  <Button bsSize="xsmall" onClick={() => this.onVotePost(post.id,'upVote')} ><Glyphicon  glyph="glyphicon glyphicon-plus-sign" /></Button>
+                                  <Label
+                                    className="text-xs-right"
+                                    bsSize="small"
+                                    bsStyle={post.voteScore < 0 ? "danger": "default"}>
+                                      {post.voteScore}
+                                  </Label>
+                                  <Button bsSize="xsmall" onClick={() => this.onVotePost(post.id,'downVote')} ><Glyphicon  glyph="glyphicon glyphicon-minus-sign" /></Button>
+                                </h7>
+                              </Col>
+                              <Col lg={2} className="text-xs-right">
+                                <Button bsSize="xsmall">
+                                  <Link style={{"marginLeft":"5px"}}
+                                      to={`/posts/${post.id}`}>
+                                      <Glyphicon glyph="glyphicon glyphicon-edit"/>
+                                  </Link>
+                                </Button>
+                                <Button bsSize="xsmall" onClick={() => this.onDeletePost(post.id)} bsStyle="danger"><Glyphicon  glyph="glyphicon glyphicon-remove" /></Button>
+                              </Col>
+                            </Row>
 
-                          {/* Preview Image */}
-                          <img className="img-fluid rounded" src="http://placehold.it/900x300" alt=""/>
-                          <hr/>
+                            {/* Preview Image */}
+                            <img className="img-fluid rounded" src="http://placehold.it/900x300" alt=""/>
+                            <hr/>
 
-                          {/* Post Content */}
-                          <p className="lead">
-                            {post.body}
-                          </p>
-                          {/* <hr/> */}
-                        </ListGroupItem>
-                      )
-                    }
+                            {/* Post Content */}
+                            <p className="lead">
+                              {post.body}
+                            </p>
+                            {/* <hr/> */}
+                          </ListGroupItem>
+                        )
+                      }
 
-                    return ""
-                  })
+                      return ""
+                    })
                 }
                 </ListGroup>
               </Col>
